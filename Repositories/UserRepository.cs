@@ -31,6 +31,9 @@ namespace FinancesApi.Repositories
 
         public async Task<UserModel> Insert(UserModel user)
         {
+            user.CreatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.Now;
+            user.SetPasswordHash();
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
@@ -41,10 +44,11 @@ namespace FinancesApi.Repositories
         {
             var updatedUser = await FindById(id);
 
-            if (updatedUser != null) throw new Exception("Usuário não encontrado");
+            if (updatedUser == null) throw new Exception("Usuário não encontrado");
 
             updatedUser.Name = user.Name;
             updatedUser.Email = user.Email;
+            updatedUser.UpdatedAt = DateTime.Now;
 
             _context.Users.Update(updatedUser);
             await _context.SaveChangesAsync();
@@ -55,7 +59,7 @@ namespace FinancesApi.Repositories
         {
             var user = await FindById(id);
 
-            if (user != null) throw new Exception("Usuário não encontrado");
+            if (user == null) throw new Exception("Usuário não encontrado");
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

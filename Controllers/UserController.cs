@@ -43,7 +43,7 @@ namespace FinancesApi.Controllers
         public async Task<ActionResult<UserModel>> Update([FromBody] UserModel user, int id)
         {
             user.Id = id;
-            var updatedUser = await _userRepository.Update(id, user);
+            var updatedUser = await _userRepository.Update(user, id);
             return Ok(updatedUser);
         }
 
