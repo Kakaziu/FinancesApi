@@ -1,5 +1,7 @@
 
 using FinancesApi.Data;
+using FinancesApi.Repositories;
+using FinancesApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancesApi
@@ -20,6 +22,8 @@ namespace FinancesApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             var app = builder.Build();
 
