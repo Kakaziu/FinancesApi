@@ -1,4 +1,7 @@
 
+using FinancesApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace FinancesApi
 {
     public class Program
@@ -6,6 +9,10 @@ namespace FinancesApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddEntityFrameworkSqlServer()
+               .AddDbContext<FinancesApiDbContext>(
+                   options => options.UseSqlServer(builder.Configuration.GetConnectionString("FinancesApiDB"))
+               );
 
             // Add services to the container.
 
