@@ -5,66 +5,60 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinancesApi.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly FinancesApiDbContext _context;
 
-        public UserRepository(FinancesApiDbContext context)
+        public TransactionRepository(FinancesApiDbContext context)
         {   
             _context = context;
         }
 
-        public async Task<List<UserModel>> FindAll()
+        public async Task<List<TransactionModel>> FindAll()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Transactions.ToListAsync();
         }
 
-        public async Task<UserModel> FindByEmail(string email)
+        public async Task<TransactionModel> FindById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.Transactions.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<UserModel> FindById(int id)
+        public async Task<TransactionModel> Insert(TransactionModel transaction)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<UserModel> Insert(UserModel user)
-        {
-            user.CreatedAt = DateTime.Now;
-            user.UpdatedAt = DateTime.Now;
-            user.SetPasswordHash();
-            await _context.Users.AddAsync(user);
+            transaction.TransactionDate = DateTime.Now;
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
 
-            return user;
+            return transaction;
         }
 
-        public async Task<UserModel> Update(UserModel user, int id)
+        public async Task<TransactionModel> Update(TransactionModel transaction, int id)
         {
-            var updatedUser = await FindById(id);
+            var updatedTransaction = await FindById(id);
 
-            if (updatedUser == null) throw new Exception("Usuário não encontrado");
+            if (updatedTransaction == null) throw new Exception("Transação não encontrada");
 
-            updatedUser.Name = user.Name;
-            updatedUser.Email = user.Email;
-            updatedUser.UpdatedAt = DateTime.Now;
+            updatedTransaction.Description = transaction.Description;
+            updatedTransaction.Value = transaction.Value;
+            updatedTransaction.TransactionType = transaction.TransactionType;
+            updatedTransaction.TransactionDate = DateTime.Now;
 
-            _context.Users.Update(updatedUser);
+            _context.Transactions.Update(updatedTransaction);
             await _context.SaveChangesAsync();
-            return updatedUser;
+            return updatedTransaction;
         }
 
-        public async Task<UserModel> Delete(int id)
+        public async Task<TransactionModel> Delete(int id)
         {
-            var user = await FindById(id);
+            var transaction = await FindById(id);
 
-            if (user == null) throw new Exception("Usuário não encontrado");
+            if (transaction == null) throw new Exception("Transaction não encontrado");
 
-            _context.Users.Remove(user);
+            _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
 
-            return user;
+            return transaction;
 
         }
     }
