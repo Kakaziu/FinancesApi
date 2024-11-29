@@ -31,6 +31,15 @@ namespace FinancesApi
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "policy",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,6 +67,7 @@ namespace FinancesApi
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("policy");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
