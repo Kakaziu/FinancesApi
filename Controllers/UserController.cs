@@ -27,32 +27,56 @@ namespace FinancesApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserModel>> Show(int id)
         {
-            var user = await _userRepository.FindById(id);
+            try
+            {
+                var user = await _userRepository.FindById(id);
 
-            return Ok(user);
+                return Ok(user);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<UserModel>> Create([FromBody] UserModel user)
         {
-            var newUser = await _userRepository.Insert(user);
+            try
+            {
+                var newUser = await _userRepository.Insert(user);
 
-            return Ok(newUser);
+                return Ok(newUser);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<UserModel>> Update([FromBody] UserModel user, int id)
         {
-            user.Id = id;
-            var updatedUser = await _userRepository.Update(user, id);
-            return Ok(updatedUser);
+            try
+            {
+                user.Id = id;
+                var updatedUser = await _userRepository.Update(user, id);
+                return Ok(updatedUser);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserModel>> Delete(int id)
         {
-            var user = await _userRepository.Delete(id);
-            return Ok(user);
+            try
+            {
+                var user = await _userRepository.Delete(id);
+                return Ok(user);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

@@ -21,12 +21,20 @@ namespace FinancesApi.Repositories
 
         public async Task<UserModel> FindByEmail(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null) throw new Exception("Não foi possível achar o usuário.");
+
+            return user;
         }
 
         public async Task<UserModel> FindById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null) throw new Exception("Não foi possível achar o usuário.");
+
+            return user;
         }
 
         public async Task<UserModel> Insert(UserModel user)
