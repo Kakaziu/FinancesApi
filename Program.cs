@@ -1,5 +1,6 @@
 
 using FinancesApi.Data;
+using FinancesApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancesApi
@@ -19,6 +20,8 @@ namespace FinancesApi
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             var app = builder.Build();
 
