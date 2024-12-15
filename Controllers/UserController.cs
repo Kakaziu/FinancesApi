@@ -57,6 +57,9 @@ namespace FinancesApi.Controllers
             {
                 if (user is null) return BadRequest("Dados inválido.");
 
+                user.CreatedDate = DateTime.Now;
+                user.LastModifiedDate = DateTime.Now;
+
                 var newUser = await _repository.Create(user);
 
                 return new CreatedAtRouteResult("GetUser", new { id = newUser.Id }, newUser);
@@ -73,6 +76,8 @@ namespace FinancesApi.Controllers
             try
             {
                 if (id != user.Id) return BadRequest("Id inválido");
+
+                user.LastModifiedDate = DateTime.Now;
 
                 var updatedUser = await _repository.Update(user);
 

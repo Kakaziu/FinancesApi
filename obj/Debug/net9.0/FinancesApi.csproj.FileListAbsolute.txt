@@ -153,3 +153,5 @@ C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\refint\
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\FinancesApi.pdb
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\FinancesApi.genruntimeconfig.cache
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\ref\FinancesApi.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\FinancesApi.sourcelink.json
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
