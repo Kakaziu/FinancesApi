@@ -1,7 +1,10 @@
 
 using FinancesApi.Data;
 using FinancesApi.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FinancesApi
 {
@@ -9,6 +12,8 @@ namespace FinancesApi
     {
         public static void Main(string[] args)
         {
+            string secret = "3b2c2d6b-bec0-48f8-a93f-c4e41f18e103";
+
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddEntityFrameworkSqlServer()
                .AddDbContext<FinancesApiDbContext>(
@@ -24,6 +29,24 @@ namespace FinancesApi
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "finances_op",
+                    ValidAudience = "finances_app",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+                }; 
+            });
+
             var app = builder.Build();
 
        
@@ -38,8 +61,8 @@ namespace FinancesApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
