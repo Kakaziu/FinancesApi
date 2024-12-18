@@ -155,3 +155,4 @@ C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\Finance
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\ref\FinancesApi.dll
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\FinancesApi.sourcelink.json
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "FinancesApi.Controllers.LoginController",
+    "Method": "Entry",
+    "RelativePath": "api/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "FinancesApi.Models.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "FinancesApi.Controllers.UserController",
     "Method": "GetAll",
     "RelativePath": "api/User",

@@ -4,5 +4,6 @@ namespace FinancesApi.Repositories
 {
     public interface IUserRepository : IRepository<UserModel>
     {
+        Task<UserModel> GetByEmail(string email);
     }
 }
