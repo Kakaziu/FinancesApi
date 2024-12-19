@@ -28,6 +28,7 @@ namespace FinancesApi
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ITransitionRepository, TransitionRepository>();
 
             builder.Services.AddAuthentication(options =>
             {

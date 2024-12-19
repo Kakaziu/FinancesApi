@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinancesApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -67,9 +67,9 @@ namespace FinancesApi.Controllers
 
                 return new CreatedAtRouteResult("GetUser", new { id = newUser.Id }, newUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Houve um problema na sua solicitação");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.InnerException.Message });
             }
         }
 
