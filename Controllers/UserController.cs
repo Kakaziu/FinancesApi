@@ -61,6 +61,7 @@ namespace FinancesApi.Controllers
 
                 user.CreatedDate = DateTime.Now;
                 user.LastModifiedDate = DateTime.Now;
+                user.SetPasswordHash();
 
                 var newUser = await _repository.Create(user);
 

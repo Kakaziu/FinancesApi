@@ -23,15 +23,21 @@ namespace FinancesApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Entry(LoginModel login)
         {
-            var user = await _userRepository.GetByEmail(login.LoginProvider);
+            try
+            {
+                var user = await _userRepository.GetByEmail(login.LoginProvider);
 
-            if (user == null) return BadRequest("Credenciais inválidas.");
+                if (user == null) return Unauthorized("Credenciais inválidas.");
 
-            if (user.Password != login.Password) return BadRequest("Senha incorreta.");
+                if (!user.ComparePasswordHash(login.Password)) return Unauthorized("Senha incorreta.");
 
-            var token = await GenerateJWT(login);
+                var token = await GenerateJWT(login);
 
-            return Ok(new { token = token });
+                return Ok(new { token = token });
+            } catch (Exception)
+            {
+                return Unauthorized("Usuário não autorizado.");
+            }
         }
 
         private async Task<string> GenerateJWT(LoginModel login)
