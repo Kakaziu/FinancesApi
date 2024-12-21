@@ -13,11 +13,6 @@ namespace FinancesApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            return await _context.Set<T>().ToListAsync();
-        }
-
         public async Task<T> Get(Expression<Func<T, bool>> predicate)
         {
             T? element = await _context.Set<T>().FirstOrDefaultAsync(predicate);

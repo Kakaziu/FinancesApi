@@ -94,12 +94,17 @@ namespace FinancesApi.Migrations
             modelBuilder.Entity("FinancesApi.Models.TransitionModel", b =>
                 {
                     b.HasOne("FinancesApi.Models.UserModel", "User")
-                        .WithMany()
+                        .WithMany("Transitions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinancesApi.Models.UserModel", b =>
+                {
+                    b.Navigation("Transitions");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@
 namespace FinancesApi.Migrations
 {
     /// <inheritdoc />
-    public partial class UserValidation : Migration
+    public partial class UserHasTransitions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

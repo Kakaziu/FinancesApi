@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancesApi.Migrations
 {
     [DbContext(typeof(FinancesApiDbContext))]
-    [Migration("20241221044624_Validation")]
-    partial class Validation
+    [Migration("20241221063531_UserHasTransitions")]
+    partial class UserHasTransitions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,12 +97,17 @@ namespace FinancesApi.Migrations
             modelBuilder.Entity("FinancesApi.Models.TransitionModel", b =>
                 {
                     b.HasOne("FinancesApi.Models.UserModel", "User")
-                        .WithMany()
+                        .WithMany("Transitions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinancesApi.Models.UserModel", b =>
+                {
+                    b.Navigation("Transitions");
                 });
 #pragma warning restore 612, 618
         }

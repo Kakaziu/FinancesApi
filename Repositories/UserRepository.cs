@@ -8,6 +8,11 @@ namespace FinancesApi.Repositories
     {
         public UserRepository(FinancesApiDbContext context) : base(context) { }
 
+        public async Task<IEnumerable<UserModel>> GetAll()
+        {
+            return await _context.Users.Include(u => u.Transitions).ToListAsync();
+        }
+
         public async Task<UserModel> GetByEmail(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);

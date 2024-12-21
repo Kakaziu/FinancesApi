@@ -1,10 +1,17 @@
 ﻿using ContactSystem.Helpers;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinancesApi.Models
 {
     public class UserModel
     {
+
+        public UserModel()
+        {
+            Transitions = new Collection<TransitionModel>();
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "O campo 'Nome' não pode estar vazio.")]
@@ -18,6 +25,9 @@ namespace FinancesApi.Models
         [Required(ErrorMessage = "O campo 'Senha' não pode estar vazio.")]
         [StringLength(150, ErrorMessage = "O campo 'Senha' deve ter de 3 a 150 caracteres", MinimumLength = 3)]
         public string? Password { get; set; }
+        
+        public ICollection<TransitionModel>? Transitions { get; set; }
+
         public DateTime? CreatedDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
 
