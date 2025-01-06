@@ -2,13 +2,16 @@
 using FinancesApi.Extensions;
 using FinancesApi.Models;
 using FinancesApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FinancesApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TransitionController : ControllerBase
     {
         private readonly ITransitionRepository _repository;
@@ -27,11 +30,26 @@ namespace FinancesApi.Controllers
 
                 if (transitions is null) return NotFound("Não foi possível listar as transições");
 
-                return Ok(transitions.ToList().ToListTransitionDTO());
+                if (!Request.Headers.ContainsKey("Authorization")) return BadRequest("Não autorizado.");
+
+                var token = Request.Headers["Authorization"];
+                var handler = new JwtSecurityTokenHandler();
+
+                var formatedToken = token.ToString().Split(" ");
+
+                token = formatedToken[1];
+
+                var jwtToken = handler.ReadJwtToken(token);
+
+                var claims = jwtToken.Claims.ToDictionary(c => c.Type, c => c.Value);
+
+                var userTransitions = transitions.Where(t => t.UserId.ToString() == claims["id"]);
+
+                return Ok(userTransitions.ToList().ToListTransitionDTO());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Houve um problema na sua solicitação.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
             }
         }
 

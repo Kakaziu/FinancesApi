@@ -34,7 +34,7 @@ namespace FinancesApi.Controllers
 
                 var token = await GenerateJWT(login);
 
-                Request.Headers.Append("Authorization", JsonSerializer.Serialize(token));
+                Response.Headers.Append("Authorization", JsonSerializer.Serialize(token));
 
                 return Ok(new { token = token });
             } catch (Exception)
