@@ -155,7 +155,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[FinancesApi.Models.UserModel, FinancesApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[FinancesApi.DTOs.UserDTO, FinancesApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -174,14 +174,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "FinancesApi.Models.UserModel",
+        "Name": "userDTO",
+        "Type": "FinancesApi.DTOs.UserDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.UserModel",
+        "Type": "FinancesApi.DTOs.UserDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -207,7 +207,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.UserModel",
+        "Type": "FinancesApi.DTOs.UserDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -232,14 +232,14 @@
         "IsRequired": true
       },
       {
-        "Name": "user",
-        "Type": "FinancesApi.Models.UserModel",
+        "Name": "userDTO",
+        "Type": "FinancesApi.DTOs.UserDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.UserModel",
+        "Type": "FinancesApi.DTOs.UserDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
