@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace FinancesApi.Controllers
 {
@@ -32,6 +33,8 @@ namespace FinancesApi.Controllers
                 if (!user.ComparePasswordHash(login.Password)) return Unauthorized("Senha incorreta.");
 
                 var token = await GenerateJWT(login);
+
+                Request.Headers.Append("Authorization", JsonSerializer.Serialize(token));
 
                 return Ok(new { token = token });
             } catch (Exception)

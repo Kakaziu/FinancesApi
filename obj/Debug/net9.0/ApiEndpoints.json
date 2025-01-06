@@ -25,7 +25,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[FinancesApi.Models.TransitionModel, FinancesApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[FinancesApi.DTOs.TransitionDTO, FinancesApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -44,14 +44,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "transition",
-        "Type": "FinancesApi.Models.TransitionModel",
+        "Name": "transitionDTO",
+        "Type": "FinancesApi.DTOs.TransitionDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.TransitionModel",
+        "Type": "FinancesApi.DTOs.TransitionDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -77,7 +77,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.TransitionModel",
+        "Type": "FinancesApi.DTOs.TransitionDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -97,8 +97,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "transition",
-        "Type": "FinancesApi.Models.TransitionModel",
+        "Name": "transitionDTO",
+        "Type": "FinancesApi.DTOs.TransitionDTO",
         "IsRequired": true
       },
       {
@@ -109,7 +109,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.TransitionModel",
+        "Type": "FinancesApi.DTOs.TransitionDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -1,11 +1,11 @@
 ﻿using FinancesApi.Models;
-using FinancesApi.DTOs
+using FinancesApi.DTOs;
 
 namespace FinancesApi.Extensions
 {
     public static class TransitionDTOMappingExtensions
     {
-        public static TransitionDTO? ToTransitionDTO(TransitionModel transition)
+        public static TransitionDTO? ToTransitionDTO(this TransitionModel transition)
         {
             if (transition == null) return null;
 
@@ -19,7 +19,7 @@ namespace FinancesApi.Extensions
             };
         }
 
-        public static TransitionModel? ToTransitionModel(TransitionDTO transitionDTO)
+        public static TransitionModel? ToTransitionModel(this TransitionDTO transitionDTO)
         {
             if (transitionDTO is null) return null;
 
@@ -33,7 +33,7 @@ namespace FinancesApi.Extensions
             };
         }
 
-        public static List<TransitionDTO>? ToListTransitionDTO(List<TransitionModel> transitions)
+        public static List<TransitionDTO>? ToListTransitionDTO(this List<TransitionModel> transitions)
         {
             if (transitions is null || !transitions.Any()) return null;
 

@@ -1,4 +1,6 @@
-﻿using FinancesApi.Models;
+﻿using FinancesApi.DTOs;
+using FinancesApi.Extensions;
+using FinancesApi.Models;
 using FinancesApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,7 @@ namespace FinancesApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TransitionModel>>> GetAll()
+        public async Task<ActionResult<List<TransitionDTO>>> GetAll()
         {
             try
             {
@@ -25,7 +27,7 @@ namespace FinancesApi.Controllers
 
                 if (transitions is null) return NotFound("Não foi possível listar as transições");
 
-                return Ok(transitions);
+                return Ok(transitions.ToList().ToListTransitionDTO());
             }
             catch (Exception)
             {
@@ -34,7 +36,7 @@ namespace FinancesApi.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTransition")]
-        public async Task<ActionResult<TransitionModel>> Get(int id)
+        public async Task<ActionResult<TransitionDTO>> Get(int id)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace FinancesApi.Controllers
 
                 if (transition is null) return NotFound("Não foi possível achar a transição.");
 
-                return transition;
+                return Ok(transition.ToTransitionDTO());
             }
             catch (Exception)
             {
@@ -51,31 +53,37 @@ namespace FinancesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TransitionModel>> Create([FromBody] TransitionModel transition)
+        public async Task<ActionResult<TransitionDTO>> Create([FromBody] TransitionDTO transitionDTO)
         {
             try
             {
-                if (transition is null) return BadRequest("Dados inválidos");
+                if (transitionDTO is null) return BadRequest("Dados inválidos");
+
+                var transition = transitionDTO.ToTransitionModel();
 
                 transition.CreatedDate = DateTime.Now;
                 transition.LastModifiedDate = DateTime.Now;
 
                 var newTransition = await _repository.Create(transition);
 
-                return new CreatedAtRouteResult("GetTransition", new { id = newTransition.Id }, newTransition);
+                var newTransitionDTO = newTransition.ToTransitionDTO();
+
+                return new CreatedAtRouteResult("GetTransition", new { id = newTransitionDTO.Id }, newTransitionDTO);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.InnerException.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, "Houve um problema na sua solicitação.");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TransitionModel>> Update([FromBody] TransitionModel transition, int id)
+        public async Task<ActionResult<TransitionDTO>> Update([FromBody] TransitionDTO transitionDTO, int id)
         {
             try
             {
-                if (transition.Id != id) return BadRequest("Id inválido.");
+                if (transitionDTO.Id != id) return BadRequest("Id inválido.");
+
+                var transition = transitionDTO.ToTransitionModel();
 
                 transition.LastModifiedDate = DateTime.Now;
 
@@ -83,7 +91,9 @@ namespace FinancesApi.Controllers
 
                 if (updatedTransition is null) return BadRequest("Não foi possível atualizar a transição.");
 
-                return Ok(updatedTransition);
+                var updatedTransitionDTO = updatedTransition.ToTransitionDTO();
+
+                return Ok(updatedTransitionDTO);
             }
             catch (Exception)
             {
@@ -100,9 +110,9 @@ namespace FinancesApi.Controllers
 
                 if (transition is null) return NotFound("Não foi possível achar a transição");
 
-                transition = await _repository.Delete(transition);
+                var deletedTransition = await _repository.Delete(transition);
 
-                return Ok(transition);
+                return Ok(deletedTransition.ToTransitionDTO());
             }
             catch (Exception)
             {
