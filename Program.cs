@@ -4,6 +4,7 @@ using FinancesApi.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace FinancesApi
@@ -20,13 +21,11 @@ namespace FinancesApi
                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("FinancesApiContext"))
                );
 
-
-
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler =
                 System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-            });
+            }).AddNewtonsoftJson();
 
             builder.Services.AddOpenApi();
 

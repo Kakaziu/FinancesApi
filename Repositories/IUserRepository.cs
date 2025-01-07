@@ -1,4 +1,5 @@
-﻿using FinancesApi.Models;
+﻿using FinancesApi.DTOs;
+using FinancesApi.Models;
 
 namespace FinancesApi.Repositories
 {

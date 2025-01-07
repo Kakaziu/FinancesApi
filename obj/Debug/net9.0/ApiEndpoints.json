@@ -265,7 +265,38 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "FinancesApi.Models.UserModel",
+        "Type": "FinancesApi.DTOs.UserDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FinancesApi.Controllers.UserController",
+    "Method": "UpdatePassword",
+    "RelativePath": "api/User/{id}/updatePassword",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "jsonPatch",
+        "Type": "Microsoft.AspNetCore.JsonPatch.Operations.Operation[]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "FinancesApi.DTOs.UserDTOUpdateResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

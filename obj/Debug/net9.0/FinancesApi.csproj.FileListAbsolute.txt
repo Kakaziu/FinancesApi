@@ -156,3 +156,7 @@ C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\ref\Fin
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\obj\Debug\net9.0\FinancesApi.sourcelink.json
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Newtonsoft.Json.Bson.dll

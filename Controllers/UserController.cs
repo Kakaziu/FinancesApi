@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FinancesApi.Extensions;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace FinancesApi.Controllers
 {
@@ -105,8 +106,40 @@ namespace FinancesApi.Controllers
             }
         }
 
+        [HttpPatch("{id}/updatePassword")]
+        public async Task<ActionResult<UserDTOUpdateResponse>> UpdatePassword(int id, 
+            JsonPatchDocument<UserDTOUpdateRequest> jsonPatch)
+        {
+            try
+            {
+                if (jsonPatch is null || id <= 0) return BadRequest("Dados inválidos");
+
+                var user = await _repository.Get(u => u.Id == id);
+
+                if (user is null) return NotFound();
+
+                var userDTOUpdateRequest = user.ToUserDTOUpdateRequest();
+
+                jsonPatch.ApplyTo(userDTOUpdateRequest, ModelState);
+
+                //if (!ModelState.IsValid || TryValidateModel(userDTOUpdateRequest)) return BadRequest(ModelState);
+
+                user.Password = userDTOUpdateRequest.Password;
+                user.LastModifiedDate = DateTime.Now;
+
+                user.SetPasswordHash();
+                await _repository.Update(user);
+
+                return Ok(user.ToUserUpdateResponse());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserModel>> Delete(int id)
+        public async Task<ActionResult<UserDTO>> Delete(int id)
         {
             try
             {
