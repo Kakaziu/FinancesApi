@@ -160,3 +160,4 @@ C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microso
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\Newtonsoft.Json.Bson.dll
+C:\Users\kauab\c_sharp_projects\FinancesApi\FinancesApi\bin\Debug\net9.0\AutoMapper.dll

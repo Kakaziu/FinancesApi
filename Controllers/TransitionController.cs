@@ -1,4 +1,5 @@
-﻿using FinancesApi.DTOs;
+﻿using AutoMapper;
+using FinancesApi.DTOs;
 using FinancesApi.Extensions;
 using FinancesApi.Models;
 using FinancesApi.Repositories;
@@ -15,10 +16,12 @@ namespace FinancesApi.Controllers
     public class TransitionController : ControllerBase
     {
         private readonly ITransitionRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TransitionController(ITransitionRepository transitionRepository)
+        public TransitionController(ITransitionRepository transitionRepository, IMapper mapper)
         {
             _repository = transitionRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace FinancesApi.Controllers
 
                 var userTransitions = transitions.Where(t => t.UserId.ToString() == claims["id"]);
 
-                return Ok(userTransitions.ToList().ToListTransitionDTO());
+                return Ok(_mapper.Map<IEnumerable<TransitionDTO>>(userTransitions));
             }
             catch (Exception ex)
             {
@@ -62,7 +65,7 @@ namespace FinancesApi.Controllers
 
                 if (transition is null) return NotFound("Não foi possível achar a transição.");
 
-                return Ok(transition.ToTransitionDTO());
+                return Ok(_mapper.Map<TransitionDTO>(transition));
             }
             catch (Exception)
             {
@@ -77,18 +80,18 @@ namespace FinancesApi.Controllers
             {
                 if (transitionDTO is null) return BadRequest("Dados inválidos");
 
-                var transition = transitionDTO.ToTransitionModel();
+                var transition = _mapper.Map<TransitionModel>(transitionDTO);
 
                 transition.CreatedDate = DateTime.Now;
                 transition.LastModifiedDate = DateTime.Now;
 
                 var newTransition = await _repository.Create(transition);
 
-                var newTransitionDTO = newTransition.ToTransitionDTO();
+                var newTransitionDTO = _mapper.Map<TransitionDTO>(newTransition);
 
                 return new CreatedAtRouteResult("GetTransition", new { id = newTransitionDTO.Id }, newTransitionDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Houve um problema na sua solicitação.");
             }
@@ -101,7 +104,7 @@ namespace FinancesApi.Controllers
             {
                 if (transitionDTO.Id != id) return BadRequest("Id inválido.");
 
-                var transition = transitionDTO.ToTransitionModel();
+                var transition = _mapper.Map<TransitionModel>(transitionDTO);
 
                 transition.LastModifiedDate = DateTime.Now;
 
@@ -109,7 +112,7 @@ namespace FinancesApi.Controllers
 
                 if (updatedTransition is null) return BadRequest("Não foi possível atualizar a transição.");
 
-                var updatedTransitionDTO = updatedTransition.ToTransitionDTO();
+                var updatedTransitionDTO = _mapper.Map<TransitionDTO>(updatedTransition);
 
                 return Ok(updatedTransitionDTO);
             }
@@ -130,7 +133,7 @@ namespace FinancesApi.Controllers
 
                 var deletedTransition = await _repository.Delete(transition);
 
-                return Ok(deletedTransition.ToTransitionDTO());
+                return Ok(_mapper.Map<TransitionDTO>(deletedTransition));
             }
             catch (Exception)
             {

@@ -1,5 +1,6 @@
 
 using FinancesApi.Data;
+using FinancesApi.DTOs;
 using FinancesApi.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,8 @@ namespace FinancesApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
                 }; 
             });
+
+            builder.Services.AddAutoMapper(typeof(MappingDTOProfile));
 
             var app = builder.Build();
 

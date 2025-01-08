@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FinancesApi.Extensions;
 using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
+using FinancesApi.Data.Map;
 
 namespace FinancesApi.Controllers
 {
@@ -15,10 +17,12 @@ namespace FinancesApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repository;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository repository)
+        public UserController(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace FinancesApi.Controllers
 
                 if (users is null) return NotFound("Não foi possível achar os usuários.");
 
-                return Ok(users.ToList().ToUserDTOList());
+                return Ok(_mapper.Map<List<UserDTO>>(users));
             }
             catch (Exception)
             {
@@ -47,7 +51,7 @@ namespace FinancesApi.Controllers
 
                 if (user is null) return NotFound("Não foi possível achar o usuário");
 
-                return Ok(user.ToUserDTO());
+                return Ok(_mapper.Map<UserDTO>(user));
             }
             catch (Exception)
             {
@@ -62,7 +66,7 @@ namespace FinancesApi.Controllers
             {
                 if (userDTO is null) return BadRequest("Dados inválido.");
 
-                var user = userDTO.ToUser();
+                var user = _mapper.Map<UserModel>(userDTO);
 
                 user.CreatedDate = DateTime.Now;
                 user.LastModifiedDate = DateTime.Now;
@@ -70,7 +74,7 @@ namespace FinancesApi.Controllers
 
                 var newUser = await _repository.Create(user);
 
-                var newUserDTO = newUser.ToUserDTO();
+                var newUserDTO = _mapper.Map<UserDTO>(newUser);
 
                 return new CreatedAtRouteResult("GetUser", new { id = newUserDTO.Id }, newUserDTO);
             }
@@ -87,14 +91,14 @@ namespace FinancesApi.Controllers
             {
                 if (id != userDTO.Id) return BadRequest("Id inválido");
 
-                var user = userDTO.ToUser();
+                var user = _mapper.Map<UserModel>(userDTO);
 
                 user.LastModifiedDate = DateTime.Now;
                 user.SetPasswordHash();
 
                 var updatedUser = await _repository.Update(user);
 
-                var updatedUserDTO = updatedUser.ToUserDTO();
+                var updatedUserDTO = _mapper.Map<UserDTO>(updatedUser);
 
                 if (updatedUserDTO is null) return BadRequest("Não foi possível atualizar o usuário");
 
@@ -118,19 +122,18 @@ namespace FinancesApi.Controllers
 
                 if (user is null) return NotFound();
 
-                var userDTOUpdateRequest = user.ToUserDTOUpdateRequest();
+                var userDTOUpdateRequest = _mapper.Map<UserDTOUpdateRequest>(user);
 
                 jsonPatch.ApplyTo(userDTOUpdateRequest, ModelState);
 
-                //if (!ModelState.IsValid || TryValidateModel(userDTOUpdateRequest)) return BadRequest(ModelState);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
-                user.Password = userDTOUpdateRequest.Password;
-                user.LastModifiedDate = DateTime.Now;
+                _mapper.Map(userDTOUpdateRequest, user);
 
                 user.SetPasswordHash();
                 await _repository.Update(user);
 
-                return Ok(user.ToUserUpdateResponse());
+                return Ok(_mapper.Map<UserDTOUpdateResponse>(user));
             }
             catch (Exception ex)
             {
@@ -149,7 +152,7 @@ namespace FinancesApi.Controllers
 
                 var deletedUser = await _repository.Delete(user);
 
-                return Ok(deletedUser.ToUserDTO());
+                return Ok(_mapper.Map<UserDTO>(deletedUser));
             }
             catch (Exception)
             {
