@@ -10,7 +10,7 @@ namespace FinancesApi.Repositories
 
         public async Task<IEnumerable<TransitionModel>> GetAll()
         {
-            return await _context.Transitions.Include(t => t.User).ToListAsync();
+            return await _context.Transitions.AsNoTracking().Include(t => t.User).ToListAsync();
         }
     }
 }

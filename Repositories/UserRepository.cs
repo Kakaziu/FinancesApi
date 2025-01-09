@@ -10,7 +10,7 @@ namespace FinancesApi.Repositories
 
         public async Task<IEnumerable<UserModel>> GetAll()
         {
-            return await _context.Users.Include(u => u.Transitions).ToListAsync();
+            return await _context.Users.AsNoTracking().Include(u => u.Transitions).ToListAsync();
         }
 
         public async Task<UserModel> GetByEmail(string email)
